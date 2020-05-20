@@ -26,6 +26,7 @@ function start-command {
     	cd "${MC_ROOT}/server"
     	java \
                     -Xmx${MEMORY} -Xms${MEMORY} \
+		    -XX:+UnlockExperimentalVMOptions \
                     -XX:+AlwaysPreTouch \
                     -XX:+UseG1GC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 \
                     -XX:G1HeapRegionSize=8M -XX:G1ReservePercent=20 \

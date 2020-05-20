@@ -1,0 +1,13 @@
+[Unit]
+Description=Ourcraft
+After=network.target
+
+[Service]
+Type=forking
+Restart=on-failure
+RestartSec=3
+ExecStart=/usr/bin/screen -L -dmS ourcraft  /srv/ourcraft/ourcraft start
+
+[Install]
+WantedBy=multi-user.target
+

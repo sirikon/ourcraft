@@ -4,6 +4,8 @@ After=network.target
 
 [Service]
 Type=forking
+User=ubuntu
+Group=ubuntu
 Restart=on-failure
 RestartSec=3
 ExecStart=/usr/bin/screen -L -dmS ourcraft  /srv/ourcraft/ourcraft start

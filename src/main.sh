@@ -6,6 +6,7 @@ SERVER_JAR="forge-1.12.2-14.23.5.2854.jar"
 MEMORY="3g"
 
 source "${MC_ROOT}/src/java-management.sh"
+source "${MC_ROOT}/src/service-management.sh"
 
 function main {
     command="${1:-"help"}"
@@ -13,6 +14,7 @@ function main {
     case "$command" in
         start) start-command ;;
         switch-java) switch-java-command "$args" ;;
+        create-service) create-service-command ;;
         help) help-command ;;
         *) unknown-command "$command" ;;
     esac

@@ -3,6 +3,7 @@ set -euo pipefail
 
 javaVersionsPath="${MC_ROOT}/src/assets/java-versions"
 stateFolder="${MC_ROOT}/state"
+currentJavaVersionfile="${stateFolder}/current-java-version"
 
 function switch-java-command {
     javaVersion="${1:-""}"
@@ -52,5 +53,11 @@ function set-current-java-version {
 }
 
 function get-current-java-version {
-    cat "${stateFolder}/current-java-version"
+	if [ -f "$currentJavaVersionfile" ]; then
+		cat "${stateFolder}/current-java-version"
+	fi
 }
+
+
+
+

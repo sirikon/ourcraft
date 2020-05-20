@@ -6,12 +6,17 @@ stateFolder="${MC_ROOT}/state"
 
 function switch-java-command {
     javaVersion="${1:-""}"
+    currentJavaVersion=$(get-current-java-version)
 
     if [ "$javaVersion" == "" ]; then
         printf "Choose an available version:\n"
         cat $javaVersionsPath | while read -r version link
         do
-            printf "[ ] $version\n"
+            check=" "
+            if [ "$currentJavaVersion" == "$version" ]; then
+                check="x"
+            fi
+            printf "[$check] $version\n"
         done
         printf "\nSwitch to a new one with 'ourcraft switch-java <version>'\n"
     else
@@ -44,4 +49,8 @@ function set-current-java-version {
     javaVersion="$1"
     mkdir -p "${stateFolder}"
     printf "$javaVersion" > "${stateFolder}/current-java-version"
+}
+
+function get-current-java-version {
+    cat "${stateFolder}/current-java-version"
 }

@@ -19,7 +19,7 @@ function main {
 }
 
 function start-command {
-    JAVA_VERSION="$(cat "${MC_ROOT}/state/current-java-version")"
+    JAVA_VERSION="$(get-current-java-version)"
     (
         export JAVA_HOME="${MC_ROOT}/java/${JAVA_VERSION}"
         export PATH="$PATH:${JAVA_HOME}/bin"

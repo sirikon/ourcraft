@@ -7,6 +7,7 @@ MEMORY="3g"
 
 source "${MC_ROOT}/src/java-management.sh"
 source "${MC_ROOT}/src/service-management.sh"
+source "${MC_ROOT}/src/snapshot-management.sh"
 
 function main {
 	command="${1:-"help"}"
@@ -15,6 +16,7 @@ function main {
 		start) start-command ;;
 		switch-java) switch-java-command "$args" ;;
 		create-service) create-service-command ;;
+		create-snapshot) create-snapshot-command ;;
 		help) help-command ;;
 		*) unknown-command "$command" ;;
 	esac

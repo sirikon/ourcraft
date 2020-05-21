@@ -2,14 +2,15 @@
 set -euo pipefail
 
 MC_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]})/..)"
-SERVER_JAR="forge-1.12.2-14.23.5.2854.jar"
-MEMORY="3g"
 
 source "${MC_ROOT}/src/java-management.sh"
 source "${MC_ROOT}/src/service-management.sh"
 source "${MC_ROOT}/src/snapshot-management.sh"
 
+configPath="${MC_ROOT}/config.env"
+
 function main {
+	load-config
 	command="${1:-"help"}"
 	args="${@:2}"
 	case "$command" in
@@ -29,7 +30,7 @@ function start-command {
 		export PATH="$PATH:${JAVA_HOME}/bin"
 		cd "${MC_ROOT}/server"
 		java \
-			-Xmx${MEMORY} -Xms${MEMORY} \
+			-Xmx${JVM_MEMORY} -Xms${JVM_MEMORY} \
 			-XX:+UnlockExperimentalVMOptions \
 			-XX:+AlwaysPreTouch \
 			-XX:+UseG1GC -XX:G1NewSizePercent=30 -XX:G1MaxNewSizePercent=40 \
@@ -51,6 +52,14 @@ function help-command {
 
 function unknown-command {
 	printf "Unknown command '%s'\n" "$1"
+}
+
+function load-config {
+	if [ ! -f "$configPath" ]; then
+		printf "Config file is missing\n"
+		exit 1
+	fi
+	export $(cat ${configPath} | xargs)
 }
 
 main $@

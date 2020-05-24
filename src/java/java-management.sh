@@ -45,7 +45,7 @@ function ensure-java-downloaded {
 
 function get-java-version-link {
 	javaVersion="$1"
-	awk -v javaVersion="$javaVersion" '{if($1 == javaVersion){print $2}}' src/assets/java-versions | head -n 1
+	awk -v javaVersion="$javaVersion" '{if($1 == javaVersion){print $2}}' "${OURCRAFT_ROOT}/src/assets/java-versions" | head -n 1
 }
 
 function set-current-java-version {

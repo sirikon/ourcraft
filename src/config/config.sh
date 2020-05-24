@@ -10,3 +10,21 @@ function load-config {
 	fi
 	export $(cat ${configPath} | xargs)
 }
+
+function configure-command {
+    ask-for "JVM memory" jvmMemory
+    ask-for "Server JAR file name" serverJar
+
+    write-config \
+        "JVM_MEMORY" $jvmMemory \
+        "SERVER_JAR" $serverJar
+}
+
+function ask-for {
+    printf "$1: "
+    read -r $2
+}
+
+function write-config {
+    printf "%s=%s\n" $@ > $configPath
+}

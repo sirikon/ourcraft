@@ -1,6 +1,2 @@
-/java
-/state
-/tmp
-/snapshots
-/server
-/config.env
+/testing-folder/**/*
+!/testing-folder/.gitkeep

@@ -4,6 +4,7 @@ set -euo pipefail
 OURCRAFT_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]})/..)"
 source "${OURCRAFT_ROOT}/src/common.sh"
 
+import "config/config.sh"
 import "java/java-management.sh"
 import "systemd/service-management.sh"
 import "snapshots/snapshot-management.sh"
@@ -13,6 +14,7 @@ function main {
 	args="${@:2}"
 	case "$command" in
 		help) help-command ;;
+		configure) configure-command ;;
 		java-list) java-list-command ;;
 		java-use) java-use-command "$args" ;;
 		start) start-command ;;

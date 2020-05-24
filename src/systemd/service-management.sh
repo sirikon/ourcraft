@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-tempFolder="${MC_ROOT}/tmp"
+tempFolder="${OURCRAFT_ROOT}/tmp"
 
 function create-service-command {
 	serviceName="ourcraft"
@@ -10,8 +10,8 @@ function create-service-command {
 	(
 		export USER=$USER
 		export GROUP=$USER
-		export ROOT=$MC_ROOT
-		envsubst < "${MC_ROOT}/src/assets/systemd.service" > "${tempServiceFile}"
+		export ROOT=$OURCRAFT_ROOT
+		envsubst < "${OURCRAFT_ROOT}/src/assets/systemd.service" > "${tempServiceFile}"
 	)
 	sudo mv "${tempServiceFile}" "/etc/systemd/system/${serviceName}.service"
 	sudo systemctl enable ${serviceName}

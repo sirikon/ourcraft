@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-snapshotsFolder="${MC_ROOT}/snapshots"
-serverFolder="${MC_ROOT}/server"
+snapshotsFolder="${OURCRAFT_ROOT}/snapshots"
+serverFolder="${OURCRAFT_ROOT}/server"
 
 function create-snapshot-command {
     if [ ! -d "$serverFolder" ]; then

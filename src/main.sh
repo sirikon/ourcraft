@@ -1,34 +1,38 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-MC_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]})/..)"
+OURCRAFT_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]})/..)"
+source "${OURCRAFT_ROOT}/src/common.sh"
 
-source "${MC_ROOT}/src/java-management.sh"
-source "${MC_ROOT}/src/service-management.sh"
-source "${MC_ROOT}/src/snapshot-management.sh"
-
-configPath="${MC_ROOT}/config.env"
+import "java/java-management.sh"
+import "systemd/service-management.sh"
+import "snapshots/snapshot-management.sh"
 
 function main {
-	load-config
 	command="${1:-"help"}"
 	args="${@:2}"
 	case "$command" in
+		help) help-command ;;
+		java-list) java-list-command ;;
+		java-use) java-use-command "$args" ;;
 		start) start-command ;;
-		switch-java) switch-java-command "$args" ;;
 		create-service) create-service-command ;;
 		create-snapshot) create-snapshot-command ;;
-		help) help-command ;;
+		
 		*) unknown-command "$command" ;;
 	esac
+}
+
+function help-command {
+	get-asset "help"
 }
 
 function start-command {
 	JAVA_VERSION="$(get-current-java-version)"
 	(
-		export JAVA_HOME="${MC_ROOT}/java/${JAVA_VERSION}"
+		export JAVA_HOME="${OURCRAFT_ROOT}/java/${JAVA_VERSION}"
 		export PATH="$PATH:${JAVA_HOME}/bin"
-		cd "${MC_ROOT}/server"
+		cd "${OURCRAFT_ROOT}/server"
 		java \
 			-Xmx${JVM_MEMORY} -Xms${JVM_MEMORY} \
 			-XX:+UnlockExperimentalVMOptions \
@@ -46,20 +50,8 @@ function start-command {
 	)
 }
 
-function help-command {
-	printf "You're alone, buddy.\n"
-}
-
 function unknown-command {
 	printf "Unknown command '%s'\n" "$1"
-}
-
-function load-config {
-	if [ ! -f "$configPath" ]; then
-		printf "Config file is missing\n"
-		exit 1
-	fi
-	export $(cat ${configPath} | xargs)
 }
 
 main $@

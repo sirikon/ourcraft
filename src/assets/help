@@ -1,0 +1,8 @@
+Ourcraft - Minecraft server management
+
+  help)       Shows this help page.
+  configure)  Starts a configuration wizard.
+  java-list)  Lists the available Java versions.
+  java-use)   Installs, if not installed yet, the specified Java version and
+              and enables it for use with the server.
+

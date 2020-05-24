@@ -18,6 +18,8 @@ function configure-command {
     write-config \
         "JVM_MEMORY" $jvmMemory \
         "SERVER_JAR" $serverJar
+
+    mkdir -p "$(pwd)/server"
 }
 
 function ask-for {

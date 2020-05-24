@@ -15,12 +15,16 @@ function java-list-command {
 		fi
 		printf "[$check] $version\n"
 	done
-	printf "\nSwitch to a new one with 'ourcraft switch-java <version>'\n"
+	printf "\nSwitch to a new one with 'ourcraft java-use <version>'\n"
 }
 
 function java-use-command {
 	javaVersion="${1}"
-	currentJavaVersion=$(get-current-java-version)
+	if [ "$javaVersion" == "" ]; then
+		printf "Java version is missing\n"
+		printf "Usage: ourcraft java-use <javaVersion>\n"
+	fi
+
 	ensure-java-downloaded "$javaVersion"
 	set-current-java-version "$javaVersion"
 }

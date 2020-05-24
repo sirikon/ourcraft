@@ -2,25 +2,20 @@
 set -euo pipefail
 
 OURCRAFT_ROOT="$(realpath $(dirname ${BASH_SOURCE[0]})/..)"
-source "${OURCRAFT_ROOT}/src/common.sh"
-
-import "config/config.sh"
-import "java/java-management.sh"
-import "systemd/service-management.sh"
-import "snapshots/snapshot-management.sh"
+source "${OURCRAFT_ROOT}/src/index.sh"
 
 function main {
 	command="${1:-"help"}"
 	args="${@:2}"
 	case "$command" in
-		help) help-command ;;
 		configure) configure-command ;;
 		java-list) java-list-command ;;
 		java-use) java-use-command "$args" ;;
 		start) start-command ;;
-		create-service) create-service-command ;;
-		create-snapshot) create-snapshot-command ;;
-		
+		service-install) service-install-command ;;
+		service-remove) service-remove-command ;;
+		snapshot) snapshot-command ;;
+		help) help-command ;;
 		*) unknown-command "$command" ;;
 	esac
 }
@@ -30,11 +25,12 @@ function help-command {
 }
 
 function start-command {
+	load-config
 	JAVA_VERSION="$(get-current-java-version)"
 	(
-		export JAVA_HOME="${OURCRAFT_ROOT}/java/${JAVA_VERSION}"
-		export PATH="$PATH:${JAVA_HOME}/bin"
-		cd "${OURCRAFT_ROOT}/server"
+		export JAVA_HOME="$(pwd)/java/${JAVA_VERSION}"
+		export PATH="${JAVA_HOME}/bin:$PATH"
+		cd "$(pwd)/server"
 		java \
 			-Xmx${JVM_MEMORY} -Xms${JVM_MEMORY} \
 			-XX:+UnlockExperimentalVMOptions \
@@ -48,12 +44,13 @@ function start-command {
 			-XX:G1MixedGCLiveThresholdPercent=90 \
 			-XX:G1RSetUpdatingPauseTimePercent=5 -XX:SurvivorRatio=32 \
 			-XX:+PerfDisableSharedMem -XX:MaxTenuringThreshold=1 \
-			-jar $SERVER_JAR
+			-jar $SERVER_JAR -nogui
 	)
 }
 
 function unknown-command {
 	printf "Unknown command '%s'\n" "$1"
+	printf "See help: ourcraft help\n"
 }
 
 main $@

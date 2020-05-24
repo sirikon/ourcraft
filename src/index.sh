@@ -32,3 +32,8 @@ function load-config {
 	fi
 	export $(cat ${configPath} | xargs)
 }
+
+import "config/config.sh"
+import "java/java-management.sh"
+import "systemd/service-management.sh"
+import "snapshots/snapshot-management.sh"

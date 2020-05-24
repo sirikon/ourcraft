@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+${BIN_PATH} $@

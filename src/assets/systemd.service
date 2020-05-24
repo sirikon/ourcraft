@@ -9,6 +9,8 @@ Group=${GROUP}
 Restart=on-failure
 RestartSec=3
 ExecStart=/usr/bin/screen -L -dmS ourcraft  ${ROOT}/ourcraft start
+KillSignal=SIGINT
+TimeoutStopSec=60
 
 [Install]
 WantedBy=multi-user.target

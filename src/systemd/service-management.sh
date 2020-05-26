@@ -24,10 +24,13 @@ function service-remove-command {
 }
 
 function service-start-command {
-	printf "Starting...\n"
 	sudo systemctl start ${serviceName}
 }
 
 function service-stop-command {
 	sudo systemctl stop ${serviceName}
+}
+
+function attach-command {
+	screen -r ourcraft
 }

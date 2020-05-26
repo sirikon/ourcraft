@@ -6,9 +6,14 @@ After=network.target
 Type=forking
 User=${USER}
 Group=${GROUP}
+
+WorkingDirectory=${WORKDIR}
+Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/usr/bin/screen -L -dmS ourcraft  ourcraft start
+
 Restart=on-failure
 RestartSec=3
-ExecStart=/usr/bin/screen -L -dmS ourcraft  ${ROOT}/ourcraft start
+
 KillSignal=SIGINT
 TimeoutStopSec=60
 

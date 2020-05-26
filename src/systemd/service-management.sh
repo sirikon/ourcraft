@@ -10,7 +10,7 @@ function service-install-command {
 	(
 		export USER=$USER
 		export GROUP=$USER
-		export ROOT=$OURCRAFT_ROOT
+		export WORKDIR=$(pwd)
 		envsubst < "${OURCRAFT_ROOT}/src/assets/systemd.service" > "${tempServiceFile}"
 	)
 	sudo mv "${tempServiceFile}" "/etc/systemd/system/${serviceName}.service"
@@ -21,4 +21,13 @@ function service-install-command {
 function service-remove-command {
 	sudo systemctl disable ${serviceName}
 	sudo rm "/etc/systemd/system/${serviceName}.service"
+}
+
+function service-start-command {
+	printf "Starting...\n"
+	sudo systemctl start ${serviceName}
+}
+
+function service-stop-command {
+	sudo systemctl stop ${serviceName}
 }

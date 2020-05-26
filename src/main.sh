@@ -14,6 +14,8 @@ function main {
 		start) start-command ;;
 		service-install) service-install-command ;;
 		service-remove) service-remove-command ;;
+		service-start) service-start-command ;;
+		service-stop) service-stop-command ;;
 		backup) backup-command ;;
 		restic) restic-command "$args" ;;
 		help) help-command ;;

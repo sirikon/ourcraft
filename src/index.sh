@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+stateFolder="$(pwd)/state"
+
 function import {
     importPath="$1"
     source "${OURCRAFT_ROOT}/src/${importPath}"
@@ -36,4 +38,4 @@ function load-config {
 import "config/config.sh"
 import "java/java-management.sh"
 import "systemd/service-management.sh"
-import "snapshots/snapshot-management.sh"
+import "restic/backups.sh"

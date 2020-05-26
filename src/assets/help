@@ -13,6 +13,7 @@
   start)            Starts the minecraft server
   service-install)  Installs a Systemd service
   service-remove)   Removes the Systemd service
-  snapshot)         Creates a new snapshot of the 'server' folder
+  backup)           Creates a new backup of the 'server' folder
+  restic)           Access to underlying restic tool for managing the backups
   help)             Shows this help page.
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-stateFolder="$(pwd)/state"
 currentJavaVersionfile="${stateFolder}/current-java-version"
 
 function java-list-command {

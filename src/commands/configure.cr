@@ -1,34 +1,35 @@
 require "../config/config"
 
 module Ourcraft::Commands
-
-  # macro autoconfigure
-  #   def configure
-  #     config = Config::Config.new
-  #     {% args = Config::Config.instance_vars %}
-  #     print {{ args.stringify }} + "\n"
-  #     {% for arg in args %}
-  #       print {{ "#{arg.name}" }} + ": " + config.@{{ arg.name }} + "\n"
-  #     {% end %}
-  #   end
-  # end
+  extend self
 
   class Configurator < Config::Config
-    def initialize(config : Config::Config)
-      {% for ivar in @type.instance_vars %}
-        @{{ ivar }} = config.@{{ ivar }}
-      {% end %}
+    def initialize(config : Config::Config | Nil = nil)
+      if config
+        {% for ivar in @type.instance_vars %}
+          @{{ ivar }} = config.@{{ ivar }}
+        {% end %}
+      end
     end
 
-    def properties
+    def build
+      config = Config::Config.new
       {% for ivar in @type.instance_vars %}
-        print "#{{{ ivar.annotation(Config::Description)[0] }}}: "
-        print "#{@{{ ivar }}}\n"
+        config.{{ ivar }} = @{{ ivar }}
+      {% end %}
+      return config
+    end
+
+    def prompt
+      {% for ivar in @type.instance_vars %}
+        {% description = ivar.annotation(Config::Description)[0] || ivar.stringify %}
+        print "#{{{ description }}} (#{@{{ ivar }}}): "
+        {{ ivar }}_new = gets || ""
+        @{{ ivar }} = {{ ivar }}_new != "" ? {{ ivar }}_new : @{{ ivar }}
       {% end %}
     end
   end
 
-  extend self
   # autoconfigure
 
   def configure
@@ -38,11 +39,14 @@ module Ourcraft::Commands
     # print "Jar: "
     # jar = gets || ""
 
-    config = Config::Config.new
-    config.jvm_memory = "4g"
+    #config = Config::Config.new
+    #config.jvm_memory = "4g"
 
-    configurator = Configurator.new(config)
-    configurator.properties
+    configurator = Configurator.new
+    configurator.prompt
+    config = configurator.build
+
+    pp config
 
     # print "JAR: "
     # password = STDIN.noecho &.gets

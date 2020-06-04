@@ -1,4 +1,4 @@
-module Ourcraft::Config
+module Ourcraft::Models
 
   annotation Description; end
 

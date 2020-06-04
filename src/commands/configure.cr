@@ -7,10 +7,29 @@ module Ourcraft::Commands
   def configure
     config = Services::ConfigService.readConfig
     {% for ivar in Models::Config.instance.instance_vars %}
-      {% description = ivar.annotation(Models::Description)[0] || ivar.stringify %}
-      print "#{{{ description }}} (#{config.{{ ivar }}}): "
-      {{ ivar }}_new = gets || ""
-      config.{{ ivar }} = {{ ivar }}_new != "" ? {{ ivar }}_new : config.{{ ivar }}
+      {% descriptionAnn = ivar.annotation(Models::Description) %}
+      {% description = descriptionAnn != nil ? descriptionAnn[0] : ivar.stringify %}
+      {% validatorAnn = ivar.annotation(Models::Validator) %}
+      {% validator = validatorAnn != nil ? validatorAnn[0] : nil %}
+
+      {{ ivar }}_done = false
+      while !{{ ivar }}_done
+
+        print "#{{{ description }}} (#{config.{{ ivar }}}): "
+        {{ ivar }}_new = gets || ""
+
+        if {{ ivar }}_new == ""
+          {{ ivar }}_done = true
+        elsif {{ validator }} != nil && {{ validator }} =~ {{ ivar }}_new != 0
+          print "Invalid value '#{{{ ivar }}_new}'\n"
+          print "Expected: #{{{ validator.stringify }}}\n"
+        else
+          config.{{ ivar }} = {{ ivar }}_new != "" ? {{ ivar }}_new : config.{{ ivar }}
+          {{ ivar }}_done = true
+        end
+
+      end
+
     {% end %}
     Services::ConfigService.writeConfig config
   end

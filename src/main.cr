@@ -11,6 +11,8 @@ when "configure"
   Ourcraft::Commands.configure
 when "java-list"
   Ourcraft::Commands.javaList
+when "java-use"
+  Ourcraft::Commands.javaUse ARGV[1]
 else
   print "Unknown command '#{command}'\n"
 end

@@ -8,3 +8,7 @@ authors:
 targets:
   ourcraft:
     main: src/main.cr
+
+dependencies:
+  crystar:
+    github: naqvis/crystar

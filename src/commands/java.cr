@@ -4,10 +4,14 @@ module Ourcraft::Commands
   extend self
 
   def javaList
-    currentVersionId = Services::JavaService.getCurrentJavaVersionID
+    currentVersionID = Services::JavaService.getCurrentJavaVersionID
     Services::JavaService.getJavaVersions.each do |version|
-      print "[#{currentVersionId == version.id ? "x" : " "}] #{version.id}\n"
+      print "[#{currentVersionID == version.id ? "x" : " "}] #{version.id}\n"
     end
+  end
+
+  def javaUse(javaVersionID : String)
+    Services::JavaService.useJavaVersion javaVersionID
   end
 
 end

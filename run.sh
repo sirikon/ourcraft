@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-(cd testing-folder && crystal ../src/main.cr -- "$@")
+shards build
+(cd testing-folder && ../bin/ourcraft "$@")

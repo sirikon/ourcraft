@@ -33,5 +33,4 @@ module Ourcraft::Commands
     {% end %}
     Services::DataService.writeConfig config
   end
-
 end

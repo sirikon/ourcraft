@@ -13,5 +13,4 @@ module Ourcraft::Commands
   def javaUse(javaVersionID : String)
     Services::JavaService.useJavaVersion javaVersionID
   end
-
 end

@@ -7,11 +7,13 @@ module Ourcraft::Services::DataService
 
   class JSONConfig < Models::Config
     include JSON::Serializable
+
     def initialize; end
   end
 
   class JSONState < Models::State
     include JSON::Serializable
+
     def initialize; end
   end
 
@@ -40,5 +42,4 @@ module Ourcraft::Services::DataService
   def writeState(state : Models::State)
     File.write("state.json", state.to_pretty_json)
   end
-
 end

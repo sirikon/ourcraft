@@ -77,5 +77,4 @@ module Ourcraft::Services::JavaService
       .select { |v| v.id == javaVersionID }
       .to_a[0]?
   end
-
 end

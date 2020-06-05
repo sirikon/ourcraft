@@ -1,7 +1,6 @@
-module Ourcraft::Models
+require "./annotations"
 
-  annotation Description; end
-  annotation Validator; end
+module Ourcraft::Models
 
   class Config
 

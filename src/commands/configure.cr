@@ -1,11 +1,11 @@
 require "../models/config"
-require "../services/config_service"
+require "../services/data_service"
 
 module Ourcraft::Commands
   extend self
 
   def configure
-    config = Services::ConfigService.readConfig
+    config = Services::DataService.readConfig
     {% for ivar in Models::Config.instance.instance_vars %}
       {% descriptionAnn = ivar.annotation(Models::Description) %}
       {% description = descriptionAnn != nil ? descriptionAnn[0] : ivar.stringify %}
@@ -31,7 +31,7 @@ module Ourcraft::Commands
       end
 
     {% end %}
-    Services::ConfigService.writeConfig config
+    Services::DataService.writeConfig config
   end
 
 end

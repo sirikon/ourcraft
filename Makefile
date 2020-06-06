@@ -1,4 +1,4 @@
-.PHONY: build test link install
+.PHONY: build test link install ci
 
 build:
 	@rm -r ./bin

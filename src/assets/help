@@ -1,7 +1,7 @@
 
-                        ████
-                        ████
-                        ▄▄▄▄
+  ████
+  ████
+  ▄▄▄▄
 
   Usage: ourcraft <command> arguments
   
@@ -13,6 +13,7 @@
   start)            Starts the minecraft server
   service-install)  Installs a Systemd service
   service-remove)   Removes the Systemd service
+  service-status)   Displays the Systemd service status
   service-start)    Starts the Systemd service
   service-stop)     Stops the Systemd service
   attach)           Attaches to running service

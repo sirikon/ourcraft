@@ -3,6 +3,7 @@ require "./commands/configure"
 require "./commands/java"
 require "./commands/start"
 require "./commands/backup"
+require "./commands/service"
 
 command = ARGV.size >= 1 ? ARGV[0] : "help"
 
@@ -17,6 +18,16 @@ when "java-use"
   Ourcraft::Commands.javaUse ARGV[1]
 when "start"
   Ourcraft::Commands.start
+when "service-install"
+  Ourcraft::Commands.serviceInstall
+when "service-remove"
+  Ourcraft::Commands.serviceRemove
+when "service-status"
+  Ourcraft::Commands.serviceStatus
+when "service-start"
+  Ourcraft::Commands.serviceStart
+when "service-stop"
+  Ourcraft::Commands.serviceStop
 when "backup"
   Ourcraft::Commands.backup
 when "restic"

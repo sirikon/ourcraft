@@ -39,7 +39,7 @@ module Ourcraft::Commands
       command: "java",
       env: {
         "JAVA_HOME" => Path.new(javaHome).to_s,
-        "PATH" => "#{Path.new(javaBins).to_s}:#{ENV["PATH"]}"
+        "PATH"      => "#{Path.new(javaBins).to_s}:#{ENV["PATH"]}",
       },
       args: args,
       chdir: "./server",
@@ -48,5 +48,4 @@ module Ourcraft::Commands
       error: Process::ORIGINAL_STDERR)
     exit status.@exit_status
   end
-
 end

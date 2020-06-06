@@ -32,5 +32,7 @@ module Ourcraft::Commands
 
     {% end %}
     Services::DataService.writeConfig config
+
+    Dir.mkdir_p("./server")
   end
 end

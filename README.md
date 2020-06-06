@@ -11,10 +11,6 @@ sudo ./install.sh
 
 ## Usage
 ```
-                      ████
-                      ████
-                      ▄▄▄▄
-
 Usage: ourcraft <command> arguments
 
 configure)        Starts a configuration wizard.

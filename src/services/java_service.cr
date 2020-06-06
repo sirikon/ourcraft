@@ -48,7 +48,6 @@ module Ourcraft::Services::JavaService
                 Dir.mkdir_p(newPath.dirname)
               end
               File.write(newPath, entry.io, perm = entry.file_info.permissions)
-              print "#{newPath}\n"
             end
           end
         end

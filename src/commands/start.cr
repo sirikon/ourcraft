@@ -35,17 +35,13 @@ module Ourcraft::Commands
     javaHome = [Dir.current, "java", state.current_java_version]
     javaBins = javaHome + ["bin"]
 
-    status = Process.run(
+    Process.exec(
       command: "java",
       env: {
         "JAVA_HOME" => Path.new(javaHome).to_s,
         "PATH"      => "#{Path.new(javaBins).to_s}:#{ENV["PATH"]}",
       },
       args: args,
-      chdir: "./server",
-      input: Process::ORIGINAL_STDIN,
-      output: Process::ORIGINAL_STDOUT,
-      error: Process::ORIGINAL_STDERR)
-    exit status.@exit_status
+      chdir: "./server")
   end
 end

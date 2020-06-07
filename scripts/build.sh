@@ -4,7 +4,7 @@ cd "$(dirname ${BASH_SOURCE[0]})/.."
 
 crystalCompilerLink="https://github.com/crystal-lang/crystal/releases/download/0.34.0/crystal-0.34.0-1-linux-x86_64.tar.gz"
 
-if ! command -v crystala >/dev/null; then
+if ! command -v crystal >/dev/null; then
     printf "Crystal compiler not available.\n"
     printf "Using the one inside ./crystal-compiler.\n"
 

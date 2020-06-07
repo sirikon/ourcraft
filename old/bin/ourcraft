@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-"$(realpath $(dirname ${BASH_SOURCE[0]}))/../src/main.sh" $@

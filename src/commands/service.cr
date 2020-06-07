@@ -47,7 +47,8 @@ module Ourcraft::Commands
   private def buildService(
     user : String,
     group : String,
-    workdir : String)
+    workdir : String
+  )
     return ECR.render("#{__DIR__}/../assets/systemd.service")
   end
 
@@ -62,5 +63,4 @@ module Ourcraft::Commands
       exit status.@exit_status
     end
   end
-
 end

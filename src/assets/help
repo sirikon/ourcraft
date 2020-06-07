@@ -16,7 +16,7 @@
   service-status)   Displays the Systemd service status
   service-start)    Starts the Systemd service
   service-stop)     Stops the Systemd service
-  attach)           Attaches to running service
+  service-attach)   Attaches to running service
   backup)           Creates a new backup of the 'server'
                     folder
   restic)           Access to underlying restic tool for

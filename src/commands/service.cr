@@ -37,6 +37,13 @@ module Ourcraft::Commands
     runCmd("sudo", ["systemctl", "stop", serviceName])
   end
 
+  def serviceAttach
+    serviceName = "ourcraft"
+    Process.exec(
+      command: "screen",
+      args: ["-r", serviceName])
+  end
+
   private def buildService(
     user : String,
     group : String,

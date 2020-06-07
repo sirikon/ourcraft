@@ -28,6 +28,8 @@ when "service-start"
   Ourcraft::Commands.serviceStart
 when "service-stop"
   Ourcraft::Commands.serviceStop
+when "service-attach"
+  Ourcraft::Commands.serviceAttach
 when "backup"
   Ourcraft::Commands.backup
 when "restic"

@@ -5,7 +5,7 @@ Description=Ourcraft
 Type=forking
 
 WorkingDirectory=<%= workdir %>
-Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+Environment=PATH=%h/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ExecStart=/usr/bin/screen -dmS ourcraft  ourcraft start
 
 Restart=on-failure

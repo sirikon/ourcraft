@@ -2,4 +2,3 @@
 /bin/
 /.shards/
 *.dwarf
-/crystal-compiler

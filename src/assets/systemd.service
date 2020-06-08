@@ -1,11 +1,8 @@
 [Unit]
 Description=Ourcraft
-After=network.target
 
 [Service]
 Type=forking
-User=<%= user %>
-Group=<%= group %>
 
 WorkingDirectory=<%= workdir %>
 Environment=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -18,4 +15,4 @@ KillSignal=SIGINT
 TimeoutStopSec=60
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target

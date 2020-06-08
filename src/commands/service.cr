@@ -5,36 +5,37 @@ module Ourcraft::Commands
 
   def serviceInstall
     serviceName = "ourcraft"
-    service = buildService(`whoami`.strip, `whoami`.strip, Dir.current)
+    serviceDefinition = buildService(Dir.current)
+    servicesDirectory = [Path.home.to_s, ".config", "systemd", "user"]
+    serviceFile = servicesDirectory + ["#{serviceName}.service"]
 
-    tempDir = [Dir.current, "temp"]
-    tempServiceFile = tempDir + ["systemd.service"]
-    Dir.mkdir_p(Path.new(tempDir))
-    File.write(Path.new(tempServiceFile), service)
-    runCmd("sudo", ["mv", Path.new(tempServiceFile).to_s, "/etc/systemd/system/#{serviceName}.service"])
-    runCmd("sudo", ["chown", "root:root", "/etc/systemd/system/#{serviceName}.service"])
-    runCmd("sudo", ["systemctl", "enable", serviceName])
+    Dir.mkdir_p(Path.new(servicesDirectory))
+    File.write(Path.new(serviceFile), serviceDefinition)
+    runCmd("systemctl", ["--user", "enable", serviceName])
   end
 
   def serviceRemove
     serviceName = "ourcraft"
-    runCmd("sudo", ["systemctl", "disable", serviceName])
-    runCmd("sudo", ["rm", "/etc/systemd/system/#{serviceName}.service"])
+    servicesDirectory = [Path.home.to_s, ".config", "systemd", "user"]
+    serviceFile = servicesDirectory + ["#{serviceName}.service"]
+
+    runCmd("systemctl", ["--user", "disable", serviceName])
+    File.delete(Path.new(serviceFile))
   end
 
   def serviceStatus
     serviceName = "ourcraft"
-    runCmd("sudo", ["systemctl", "status", serviceName])
+    runCmd("systemctl", ["--user", "status", serviceName])
   end
 
   def serviceStart
     serviceName = "ourcraft"
-    runCmd("sudo", ["systemctl", "start", serviceName])
+    runCmd("systemctl", ["--user", "start", serviceName])
   end
 
   def serviceStop
     serviceName = "ourcraft"
-    runCmd("sudo", ["systemctl", "stop", serviceName])
+    runCmd("systemctl", ["--user", "stop", serviceName])
   end
 
   def serviceAttach
@@ -44,11 +45,7 @@ module Ourcraft::Commands
       args: ["-r", serviceName])
   end
 
-  private def buildService(
-    user : String,
-    group : String,
-    workdir : String
-  )
+  private def buildService(workdir : String)
     return ECR.render("#{__DIR__}/../assets/systemd.service")
   end
 

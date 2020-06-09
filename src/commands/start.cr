@@ -7,6 +7,15 @@ module Ourcraft::Commands
 
     args = [] of String
 
+    if config.jmx_enabled == "true"
+      args << "-Dcom.sun.management.jmxremote"
+      args << "-Dcom.sun.management.jmxremote.port=#{config.jmx_port}"
+      args << "-Dcom.sun.management.jmxremote.rmi.port=#{config.jmx_port}"
+      args << "-Dcom.sun.management.jmxremote.authenticate=false"
+      args << "-Dcom.sun.management.jmxremote.ssl=false"
+      args << "-Djava.rmi.server.hostname=127.0.0.1"
+    end
+
     args << "-Xmx#{config.jvm_memory}"
     args << "-Xms#{config.jvm_memory}"
     args << "-XX:+UnlockExperimentalVMOptions"

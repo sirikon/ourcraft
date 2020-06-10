@@ -1,17 +1,5 @@
 # Configuration
 
-The `ourcraft.conf` follows the format for shell environment variables:
-
-```
-<key>=<value>
-<key>=<value>
-...
-```
-
-Remember: Keys are **case sensitive**.
-
-## Variables
-
 - `JVM_MEMORY`: Amount of pre-assigned memory assigned to the Java Virtual
   Machine. Must be in a valid format for `java`'s `-Xmx` and `-Xms` arguments.
   - For example:

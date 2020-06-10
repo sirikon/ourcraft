@@ -6,7 +6,7 @@
   CLI tool for hosting and managing a Minecraft server
 </p>
 <p align="center">
-  ⚠️ Alpha software under development ⚠️
+  ⚠️ <b>Alpha</b> software under development ⚠️
 </p>
 
 ## Features

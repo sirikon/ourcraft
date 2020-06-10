@@ -5,19 +5,20 @@ working directory during runtime.
 
 ```
 workdir/
-├─ ourcraft.conf
-├─ secrets.conf
+├─ config.json
+├─ state.json
 ├─ server/
 ├─ java/
 │   └─ <java-version>
 └─ backup/
 ```
 
-- `ourcraft.conf`: This file stores all the non-sensitive Ourcraft
+- `config.json`: This file stores all the non-sensitive Ourcraft
 configuration. Information that could be added to VCS systems, or inside
 non-encrypted backups.
-- `secrets.conf`: This file stores sensitive information that should be taken
-with extra care by the system administrator. Passwords could be placed here.
+- `state.json`: This file stores information relative to Ourcraft's current
+state. It's fully managed by ourcraft and isn't supposed to be edited manually
+unless you know what you're doing.
 - `server/`: Here is where the Minecraft server is actually placed. It's the
 working directory for the Minecraft Server process.
 - `java/`: The folder where Java versions are installed by the built-in Java

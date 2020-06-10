@@ -5,6 +5,9 @@
 <p align="center">
   CLI tool for hosting and managing a Minecraft server
 </p>
+<p align="center">
+  ⚠️ Alpha software under development ⚠️
+</p>
 
 ## Features
 
@@ -15,7 +18,7 @@ with your setup.
 - **Backups**: Provided by the fantastic [Restic](https://restic.net/).
 - **Run as a service**: Ourcraft can configure the required Systemd service
 definition for you.
-- **Lightweight**: A single binary of **1.1 mb** and low memory footprint,
+- **Lightweight**: A single binary of **1.1mb** and low memory footprint,
 leaving as much resources as possible to Minecraft.
 - **Easy**: Just give it a try!
 
@@ -45,7 +48,7 @@ cd coolserver
 ourcraft configure
 ```
 
-The wizard will ask your for each possible setting, showing between parentheses
+The wizard will ask you for each possible setting, showing between parentheses
 the default value.
 
 Once the wizard finishes, there's a new file inside `coolserver` called
@@ -56,7 +59,7 @@ Download inside the `server` folder a Minecraft server `.jar` file. You can use
 any official or custom server. If you're not sure, let's use the
 [official one](https://www.minecraft.net/en-us/download/server/).
 
-Make sure that the downloaded `.jar` file matches the "Server JAR"
+Make sure that the downloaded `.jar` file name matches the "Server JAR"
 configuration introduced previously. Remember that you can run
 `ourcraft configure` whenever you want to change the configuration if needed.
 

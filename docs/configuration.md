@@ -1,6 +1,6 @@
 # Configuration
 
-- `JVM_MEMORY`: Amount of pre-assigned memory assigned to the Java Virtual
+- `JVM_MEMORY`: Amount of memory pre-assigned to the Java Virtual
   Machine. Must be in a valid format for `java`'s `-Xmx` and `-Xms` arguments.
   - For example:
     - `512k` -> 512 kilobytes

@@ -1,2 +1,4 @@
-/testing-folder/**/*
-!/testing-folder/.gitkeep
+/lib/
+/bin/
+/.shards/
+*.dwarf

@@ -4,6 +4,7 @@ require "./commands/java"
 require "./commands/start"
 require "./commands/backup"
 require "./commands/service"
+require "./commands/version"
 
 command = ARGV.size >= 1 ? ARGV[0] : "help"
 
@@ -34,6 +35,8 @@ when "backup"
   Ourcraft::Commands.backup
 when "restic"
   Ourcraft::Commands.restic ARGV.skip(1)
+when "version"
+  Ourcraft::Commands.version
 else
   print "Unknown command '#{command}'\n"
 end

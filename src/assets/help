@@ -22,4 +22,5 @@
   restic)           Access to underlying restic tool for
                     managing the backups
   help)             Shows this help page.
+  version)          Displays the software version.
 

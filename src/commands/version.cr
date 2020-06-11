@@ -2,7 +2,7 @@ module Ourcraft::Commands
   extend self
 
   def version
-    puts {{ read_file("./VERSION").strip }}
+    puts {{ `shards version`.strip.stringify }}
   end
 
 end

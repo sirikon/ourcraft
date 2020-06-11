@@ -4,12 +4,12 @@ cd "$(dirname ${BASH_SOURCE[0]})/.."
 
 USER="sirikon"
 REPO="ourcraft"
-VERSION="$(cat VERSION)"
+VERSION="$(shards version | tr -d '\n')"
 
 function main {
     create-temp-folder
 
-    printf "Building Ourcraft..."
+    printf "Building Ourcraft ${VERSION}..."
     run-silent ./scripts/build.sh
     printf "OK\n"
     

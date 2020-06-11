@@ -18,8 +18,6 @@ with your setup.
 - **Backups**: Provided by the fantastic [Restic](https://restic.net/).
 - **Run as a service**: Ourcraft can configure the required Systemd service
 definition for you.
-- **Lightweight**: A single binary of **1.1mb** and low memory footprint,
-leaving as much resources as possible to Minecraft.
 - **Easy**: Just give it a try!
 
 ## Installation

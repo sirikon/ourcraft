@@ -6,48 +6,86 @@ USER="sirikon"
 REPO="ourcraft"
 VERSION="$(shards version | tr -d '\n')"
 
+TEMP_FOLDER="./tmp"
+TAR_PACKAGE_FILE="${TEMP_FOLDER}/ourcraft-${VERSION}-linux-amd64.tar.gz"
+DEB_PACKAGE_FILE="${TEMP_FOLDER}/ourcraft-${VERSION}-linux-amd64.deb"
+
 function main {
     create-temp-folder
 
+    build-ourcraft
+
+    package-tar
+    package-deb
+
+    if [ ! "${1:-""}" = "--dry-run" ]; then
+        create-release
+        upload-file ${TAR_PACKAGE_FILE}
+        upload-file ${DEB_PACKAGE_FILE}
+        remove-temp-folder
+    fi
+}
+
+function build-ourcraft {
     printf "Building Ourcraft ${VERSION}..."
     run-silent ./scripts/build.sh
-    printf "OK\n"
-    
+    printf " OK\n"
+}
+
+function package-tar {
     printf "Packaging into .tar.gz file..."
-    artifactFile="ourcraft-${VERSION}-linux-amd64.tar.gz"
     (
         cd ./bin
-        tar --create --gzip --file "../tmp/${artifactFile}" *
+        tar --create --gzip --file "../${TAR_PACKAGE_FILE}" *
     )
-    printf "OK\n"
+    printf " OK\n"
+}
 
+function package-deb {(
+    printf "Packaging into deb file..."
+    mkdir -p pkg/deb/ourcraft/usr/bin/
+    cp ./bin/* pkg/deb/ourcraft/usr/bin/
+    (
+        cd pkg/deb
+        mkdir -p ourcraft/DEBIAN
+        export VERSION=${VERSION}
+        envsubst < assets/control > ourcraft/DEBIAN/control
+        run-silent dpkg-deb --build ourcraft
+        mv ./ourcraft.deb "../../${DEB_PACKAGE_FILE}"
+    )
+    printf " OK\n"
+)}
+
+function create-release {
     printf "Creating release..."
     github-release release \
         --user "${USER}" \
         --repo "${REPO}" \
         --tag "v${VERSION}" \
         --name "Ourcraft ${VERSION}"
-    printf "OK\n"
-    
-    printf "Uploading file..."
+    printf " OK\n"
+}
+
+function upload-file {
+    file="$1"
+    fileName="$(basename ${file})"
+    printf "Uploading ${fileName}..."
     github-release upload \
         --user "${USER}" \
         --repo "${REPO}" \
         --tag "v${VERSION}" \
-        --name "${artifactFile}" \
-        --file "./tmp/${artifactFile}"
-    printf "OK\n"
-
-    remove-temp-folder
+        --name "${fileName}" \
+        --file "${file}"
+    printf " OK\n"
 }
 
 function create-temp-folder {
     remove-temp-folder
-    mkdir -p ./tmp
+    mkdir -p "${TEMP_FOLDER}"
 }
 
 function remove-temp-folder {
-    rm -rf ./tmp
+    rm -rf "${TEMP_FOLDER}"
 }
 
 function run-silent {
@@ -63,4 +101,4 @@ function run-silent {
     fi
 }
 
-main
+main "$@"

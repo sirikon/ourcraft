@@ -22,18 +22,25 @@ definition for you.
 
 ## Installation
 
-Clone the repository and run the following:
+**Read** [the script](https://raw.githubusercontent.com/sirikon/ourcraft-installer/master/install.sh) before using it. You should always look at what you're
+piping to `sudo bash`.
+
+```bash
+curl -s https://raw.githubusercontent.com/sirikon/ourcraft-installer/master/install.sh | sudo bash
+```
+
+Alternatively, you can do the same process manually, downloading a pre-compiled
+binary from [releases section](https://github.com/sirikon/ourcraft/releases)
+and installing it. Make sure that the `ourcraft` binary is present in your
+`PATH`.
+
+If you prefer installation from source, clone the repository and run the
+following:
 
 ```bash
 make
 sudo make install
 ```
-
-If you prefer a pre-compiled binary, head to the
-[releases section](https://github.com/sirikon/ourcraft/releases) and download
-it from there.
-
-Make sure that the `ourcraft` binary is present in your `PATH`.
 
 ## Usage
 

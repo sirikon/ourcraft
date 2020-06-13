@@ -2,6 +2,9 @@ module Ourcraft::Commands
   extend self
 
   def backup
+    checkResticDependency
+    checkServerFolderExists
+
     if !repositoryExists?
       status = runRestic(["init"])
       if status.@exit_status > 0
@@ -14,6 +17,9 @@ module Ourcraft::Commands
   end
 
   def restic(args : Array(String))
+    checkResticDependency
+    checkServerFolderExists
+
     status = runRestic(args)
     exit status.@exit_status
   end
@@ -41,5 +47,22 @@ module Ourcraft::Commands
 
   private def serverPath
     return Path.new([Dir.current, "server"]).to_s
+  end
+
+  private def checkResticDependency
+    if Process.find_executable("restic") == nil
+      puts "Restic is required for backup commands."
+      puts "Check Restic installation instructions: https://restic.net/#installation"
+      exit 1
+    end
+  end
+
+  private def checkServerFolderExists
+    if !Dir.exists?(serverPath)
+      puts "'server' folder not found."
+      puts "You need to create this folder before running any backup command."
+      puts "Create it manually, or generate it running the 'configure' command."
+      exit 1
+    end
   end
 end

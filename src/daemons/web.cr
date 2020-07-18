@@ -19,5 +19,4 @@ module Ourcraft::Daemons::Web
     puts "Listening on http://#{address}"
     server.listen
   end
-
 end

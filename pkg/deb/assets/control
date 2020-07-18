@@ -6,4 +6,5 @@ Architecture: amd64
 Maintainer: Carlos Fdez. Llamas <hello@sirikon.me>
 Description: Ourcraft
  https://github.com/sirikon/ourcraft
+Depends: libevent-2.1-7
 Recommends: restic

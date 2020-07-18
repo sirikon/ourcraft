@@ -53,9 +53,9 @@ module Ourcraft::Commands
     status = Process.run(
       command: cmd,
       args: args,
-      input: Process::ORIGINAL_STDIN,
-      output: Process::ORIGINAL_STDOUT,
-      error: Process::ORIGINAL_STDERR)
+      input: STDIN,
+      output: STDOUT,
+      error: STDERR)
     if status.@exit_status > 0
       exit status.@exit_status
     end

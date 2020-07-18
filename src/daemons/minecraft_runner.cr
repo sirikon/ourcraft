@@ -1,7 +1,9 @@
+require "../minecraft/process_spawner"
+
 module Ourcraft::Daemons::MinecraftRunner
   extend self
 
-  class MinecraftProcess
+  class MinecraftRunner
     property proc : Process?
     property waiters : Array(Channel(Nil)) = [] of Channel(Nil)
 
@@ -10,16 +12,7 @@ module Ourcraft::Daemons::MinecraftRunner
         return
       end
 
-      @proc = Process.new(
-        command: "ping",
-        env: {
-          "PATH" => ENV["PATH"],
-        },
-        args: ["8.8.8.8"],
-        input: STDIN,
-        output: STDOUT,
-        error: STDERR,
-        chdir: ".")
+      @proc = Minecraft::ProcessSpawner.spawn
 
       handle_process_termination
     end
@@ -51,14 +44,14 @@ module Ourcraft::Daemons::MinecraftRunner
   end
 
   def run(chan : Channel(Bool))
-    minecraftProcess = MinecraftProcess.new
+    minecraftRunner = MinecraftRunner.new
 
     loop do
       desiredStatus = chan.receive
       if desiredStatus == true
-        minecraftProcess.start
+        minecraftRunner.start
       else
-        minecraftProcess.stop
+        minecraftRunner.stop
       end
     end
   end

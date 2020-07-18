@@ -37,8 +37,8 @@ module Ourcraft::Commands
       },
       args: args,
       chdir: serverPath,
-      output: Process::ORIGINAL_STDOUT,
-      error: Process::ORIGINAL_STDERR)
+      output: STDOUT,
+      error: STDERR)
   end
 
   private def repositoryPath

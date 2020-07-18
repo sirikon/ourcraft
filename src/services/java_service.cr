@@ -1,5 +1,5 @@
 require "crystar"
-require "gzip"
+require "compress/gzip"
 require "http/client"
 
 module Ourcraft::Services::JavaService
@@ -30,7 +30,7 @@ module Ourcraft::Services::JavaService
     if !Dir.exists?(Path.new(["java", javaVersionID]))
       print "Downloading...\n"
       download(javaVersion.url) do |io|
-        Gzip::Reader.open(io) do |gzip|
+        Compress::Gzip::Reader.open(io) do |gzip|
           Crystar::Reader.open(gzip) do |tar|
             tar.each_entry do |entry|
               if entry.file_info.directory?

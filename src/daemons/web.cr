@@ -1,14 +1,16 @@
 require "http/server"
 
+require "./minecraft_runner"
+
 module Ourcraft::Daemons::Web
   extend self
 
-  def run(chan : Channel(Bool))
+  def run(operator : MinecraftRunner::MinecraftRunnerOperator)
     server = HTTP::Server.new do |context|
       if context.request.path == "/start"
-        chan.send(true)
+        operator.start()
       elsif context.request.path == "/stop"
-        chan.send(false)
+        operator.stop()
       end
 
       context.response.content_type = "text/plain"

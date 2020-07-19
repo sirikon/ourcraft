@@ -42,12 +42,9 @@ module Ourcraft
   when "version"
     Ourcraft::Commands.version
   when "daemon"
-    channel = Channel(Bool).new
+    operator = Daemons::MinecraftRunner.start()
     spawn do
-      Daemons::Web.run(channel)
-    end
-    spawn do
-      Daemons::MinecraftRunner.run(channel)
+      Daemons::Web.run(operator)
     end
     sleep
   else

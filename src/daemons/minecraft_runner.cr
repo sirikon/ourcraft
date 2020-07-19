@@ -3,7 +3,7 @@ require "../minecraft/process_spawner"
 module Ourcraft::Daemons::MinecraftRunner
   extend self
 
-  class MinecraftRunner
+  private class MinecraftRunner
     property proc : Process?
     property waiters : Array(Channel(Nil)) = [] of Channel(Nil)
 
@@ -11,9 +11,7 @@ module Ourcraft::Daemons::MinecraftRunner
       if @proc != nil
         return
       end
-
       @proc = Minecraft::ProcessSpawner.spawn
-
       handle_process_termination
     end
 
@@ -43,16 +41,39 @@ module Ourcraft::Daemons::MinecraftRunner
     end
   end
 
-  def run(chan : Channel(Bool))
-    minecraftRunner = MinecraftRunner.new
+  class MinecraftRunnerOperator
+    def initialize(@runner : MinecraftRunner)
+      @stateChan = Channel(Bool).new
+    end
 
-    loop do
-      desiredStatus = chan.receive
-      if desiredStatus == true
-        minecraftRunner.start
-      else
-        minecraftRunner.stop
+    def start
+      @stateChan.send(true)
+    end
+
+    def stop
+      @stateChan.send(false)
+    end
+
+    def run
+      loop do
+        desiredState = @stateChan.receive
+        if desiredState == true
+          @runner.start
+        else
+          @runner.stop
+        end
       end
     end
+  end
+
+  def start
+    minecraftRunner = MinecraftRunner.new
+    operator = MinecraftRunnerOperator.new(minecraftRunner)
+
+    spawn do
+      operator.run
+    end
+
+    return operator
   end
 end

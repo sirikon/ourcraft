@@ -42,9 +42,9 @@ module Ourcraft
   when "version"
     Ourcraft::Commands.version
   when "daemon"
-    operator = Daemons::MinecraftRunner.start()
+    runner = Daemons::MinecraftRunner.start()
     spawn do
-      Daemons::Web.run(operator)
+      Daemons::Web.run(runner)
     end
     sleep
   else

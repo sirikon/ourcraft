@@ -4,3 +4,11 @@ shards:
     git: https://github.com/naqvis/crystar.git
     version: 0.1.6
 
+  radix:
+    git: https://github.com/luislavena/radix.git
+    version: 0.3.9
+
+  router:
+    git: https://github.com/tbrand/router.cr.git
+    version: 0.2.7
+

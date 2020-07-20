@@ -10,5 +10,7 @@ targets:
     main: src/main.cr
 
 dependencies:
+  router:
+    github: tbrand/router.cr
   crystar:
     github: naqvis/crystar

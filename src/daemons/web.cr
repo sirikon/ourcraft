@@ -14,6 +14,22 @@ module Ourcraft::Daemons::Web
     ); end
 
     def draw_routes
+
+      get "/" do |context, params|
+        context.response.content_type = "text/html"
+        reply_file(context, "../spa/public/index.html")
+      end
+
+      get "/app.js" do |context, params|
+        context.response.content_type = "text/javascript"
+        reply_file(context, "../spa/public/build/app.js")
+      end
+
+      get "/main.css" do |context, params|
+        context.response.content_type = "text/css"
+        reply_file(context, "../spa/public/build/main.css")
+      end
+
       post "/api/minecraft_process/start" do |context, params|
         @minecraft_runner.start
         context
@@ -38,6 +54,11 @@ module Ourcraft::Daemons::Web
     private def reply_json(context, json)
       context.response.content_type = "application/json"
       context.response.print(json)
+      context
+    end
+
+    private def reply_file(context, file_path)
+      context.response.print `cat #{file_path}`
       context
     end
 

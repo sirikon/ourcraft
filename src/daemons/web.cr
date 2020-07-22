@@ -15,7 +15,7 @@ module Ourcraft::Daemons::Web
 
     macro reply_spa_file(ctx, path, content_type)
       {{ctx}}.response.content_type = {{content_type}}
-      {% if flag?(:release) %}
+      {% if flag?(:embed_spa) %}
         {{ctx}}.response.print {{ read_file("#{__DIR__}/../../spa/public/" + path) }}
       {% else %}
         {{ctx}}.response.print File.read("#{__DIR__}/../../spa/public/" + {{path}})

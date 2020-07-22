@@ -4,4 +4,4 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 rm -rf ./bin
 (cd spa && npm install && npm run build)
-shards build --production --release --no-debug
+shards build -Dembed_spa --production --release --no-debug

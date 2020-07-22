@@ -46,6 +46,12 @@ module Ourcraft
     spawn do
       Daemons::Web.run(runner)
     end
+
+    Signal::INT.trap do
+      runner.stop()
+      exit 0
+    end
+
     sleep
   else
     print "Unknown command '#{command}'\n"

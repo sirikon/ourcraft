@@ -1,5 +1,5 @@
 name: ourcraft
-version: 0.1.2
+version: 0.2.0
 crystal: 0.34.0
 
 authors:
@@ -10,5 +10,7 @@ targets:
     main: src/main.cr
 
 dependencies:
+  router:
+    github: tbrand/router.cr
   crystar:
     github: naqvis/crystar

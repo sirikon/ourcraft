@@ -11,6 +11,7 @@
                     the specified Java version and 
                     enables it for use with the server.
   start)            Starts the minecraft server
+  daemon)           Starts the daemon
   service-install)  Installs a Systemd service
   service-remove)   Removes the Systemd service
   service-status)   Displays the Systemd service status

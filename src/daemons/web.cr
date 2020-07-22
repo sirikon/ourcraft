@@ -13,21 +13,27 @@ module Ourcraft::Daemons::Web
       @minecraft_runner : MinecraftRunner::MinecraftRunner
     ); end
 
-    def draw_routes
+    macro reply_spa_file(ctx, path, content_type)
+      {{ctx}}.response.content_type = {{content_type}}
+      {% if flag?(:release) %}
+        {{ctx}}.response.print {{ read_file("#{__DIR__}/../../spa/public/" + path) }}
+      {% else %}
+        {{ctx}}.response.print File.read("#{__DIR__}/../../spa/public/" + {{path}})
+      {% end %}
+      {{ctx}}
+    end
 
+    def draw_routes
       get "/" do |context, params|
-        context.response.content_type = "text/html"
-        reply_file(context, "../spa/public/index.html")
+        reply_spa_file context, "index.html", "text/html"
       end
 
       get "/app.js" do |context, params|
-        context.response.content_type = "text/javascript"
-        reply_file(context, "../spa/public/build/app.js")
+        reply_spa_file context, "build/app.js", "text/javascript"
       end
 
       get "/main.css" do |context, params|
-        context.response.content_type = "text/css"
-        reply_file(context, "../spa/public/build/main.css")
+        reply_spa_file context, "build/main.css", "text/css"
       end
 
       post "/api/minecraft_process/start" do |context, params|
@@ -61,7 +67,6 @@ module Ourcraft::Daemons::Web
       context.response.print `cat #{file_path}`
       context
     end
-
   end
 
   class MinecraftRunner::MinecraftRunnerStatus

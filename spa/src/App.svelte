@@ -38,6 +38,13 @@
       });
   }
 
+  function sendCommand(command) {
+    fetch("/api/minecraft_process/send_command", {
+      method: 'POST',
+      body: JSON.stringify({command})
+    });
+  }
+
   fetchStatus();
 </script>
 
@@ -52,3 +59,4 @@
 {#if loading}
   <span>Loading...</span>
 {/if}
+<button on:click={() => sendCommand("list")}>list</button>

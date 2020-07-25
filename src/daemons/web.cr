@@ -48,6 +48,12 @@ module Ourcraft::Daemons::Web
         status = @minecraft_runner.get_status
         reply_json(context, status.to_json)
       end
+      post "/api/minecraft_process/send_command" do |context, params|
+        body = JSON.parse(context.request.body.not_nil!)
+        command = body["command"].as_s + "\n"
+        @minecraft_runner.write(command.encode("utf-8"))
+        context
+      end
     end
 
     def run

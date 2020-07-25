@@ -5,13 +5,16 @@ module Ourcraft::Daemons::MinecraftRunner
 
   class MinecraftRunner
     property proc : Process?
+    property input : IO::FileDescriptor?
     property waiters : Array(Channel(Nil)) = [] of Channel(Nil)
 
     def start
       if @proc != nil
         return
       end
-      @proc = Minecraft::ProcessSpawner.spawn
+      reader, writer = IO.pipe(read_blocking: true)
+      @input = writer
+      @proc = Minecraft::ProcessSpawner.spawn(reader, STDOUT, STDERR)
       handle_process_termination
     end
 
@@ -25,6 +28,13 @@ module Ourcraft::Daemons::MinecraftRunner
 
     def get_status
       return MinecraftRunnerStatus.new(@proc != nil)
+    end
+
+    def write(bytes)
+      if @proc == nil
+        return
+      end
+      @input.not_nil!.write(bytes)
     end
 
     private def handle_process_termination

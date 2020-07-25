@@ -4,7 +4,7 @@ require "../services/java_service"
 module Ourcraft::Minecraft::ProcessSpawner
   extend self
 
-  def spawn
+  def spawn(stdin, stdout, stderr)
     config = Services::DataService.readConfig
     state = Services::DataService.readState
 
@@ -54,9 +54,9 @@ module Ourcraft::Minecraft::ProcessSpawner
         "PATH"      => "#{Path.new(javaBins).to_s}:#{ENV["PATH"]}",
       },
       args: args,
-      input: STDIN,
-      output: STDOUT,
-      error: STDERR,
+      input: stdin,
+      output: stdout,
+      error: stderr,
       chdir: "./server")
   end
 end

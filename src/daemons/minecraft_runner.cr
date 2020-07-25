@@ -6,15 +6,21 @@ module Ourcraft::Daemons::MinecraftRunner
   class MinecraftRunner
     property proc : Process?
     property input : IO::FileDescriptor?
+    property output : IO::FileDescriptor?
+    property outputTotal : IO::Memory?
     property waiters : Array(Channel(Nil)) = [] of Channel(Nil)
 
     def start
       if @proc != nil
         return
       end
-      reader, writer = IO.pipe(read_blocking: true)
-      @input = writer
-      @proc = Minecraft::ProcessSpawner.spawn(reader, STDOUT, STDERR)
+      inputReader, inputWriter = IO.pipe(read_blocking: true)
+      outputReader, outputWriter = IO.pipe(write_blocking: true)
+      @input = inputWriter
+      @output = outputReader
+      @outputTotal = IO::Memory.new
+      @proc = Minecraft::ProcessSpawner.spawn(inputReader, outputWriter, outputWriter)
+      handle_output
       handle_process_termination
     end
 
@@ -35,6 +41,16 @@ module Ourcraft::Daemons::MinecraftRunner
         return
       end
       @input.not_nil!.write(bytes)
+    end
+
+    private def handle_output
+      spawn do
+        @output.not_nil!.each_byte do |c|
+          byte = Slice.new(1, c)
+          @outputTotal.not_nil!.write(byte)
+          print String.new(byte)
+        end
+      end
     end
 
     private def handle_process_termination

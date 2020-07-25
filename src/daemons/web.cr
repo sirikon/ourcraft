@@ -60,6 +60,9 @@ module Ourcraft::Daemons::Web
       return HTTP::WebSocketHandler.new do |socket|
         puts "Socket opened"
         socket.send("Hello!")
+        socket.on_message do |message|
+          puts message
+        end
         socket.on_close do
           puts "Socket closed"
         end

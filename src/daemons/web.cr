@@ -56,8 +56,18 @@ module Ourcraft::Daemons::Web
       end
     end
 
+    def build_ws_handler
+      return HTTP::WebSocketHandler.new do |socket|
+        puts "Socket opened"
+        socket.send("Hello!")
+        socket.on_close do
+          puts "Socket closed"
+        end
+      end
+    end
+
     def run
-      server = HTTP::Server.new(route_handler)
+      server = HTTP::Server.new([build_ws_handler, route_handler])
       address = server.bind_tcp 8080
       puts "Listening on http://#{address}"
       server.listen

@@ -45,7 +45,16 @@
     });
   }
 
+  function connectWS() {
+    const websocket = new WebSocket(`ws://${document.location.host}`);
+    websocket.onopen = () => console.log("Opened!");
+    websocket.onclose = () => console.log("Closed!");
+    websocket.onmessage = (evt) => console.log("Message", evt)
+    websocket.onerror = (evt) => console.log("Error", evt)
+  }
+
   fetchStatus();
+  connectWS();
 </script>
 
 <h1 class:disabled={loading}>Status: {status.running ? 'Running' : 'Stopped'}</h1>

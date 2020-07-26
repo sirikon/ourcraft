@@ -18,7 +18,7 @@
   .output {
     overflow-x: hidden;
     overflow-y: scroll;
-    padding: 10px;
+    padding: 10px 10px 0 10px;
   }
 
   .output-wrapper {
@@ -139,10 +139,17 @@
   }
 
   function addOutputLine(line) {
-    if (output_el.scrollTop === (output_el.scrollHeight - output_el.getBoundingClientRect().height)) {
+    if (output_el.scrollTop === getScrollTopMax(output_el)) {
       keepOnBottom = true;
     }
     output_lines[output_lines.length] = line;
+  }
+
+  function getScrollTopMax(el) {
+    if (el.scrollTopMax !== undefined) {
+      return el.scrollTopMax;
+    }
+    return el.scrollHeight - el.getBoundingClientRect().height;
   }
 
   function send() {

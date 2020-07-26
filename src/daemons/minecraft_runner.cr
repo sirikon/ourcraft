@@ -40,12 +40,13 @@ module Ourcraft::Daemons::MinecraftRunner
         return
       end
       @input.not_nil!.write(bytes)
+      @output_observable.add("> " + String.new(bytes))
     end
 
     private def handle_output
       spawn do
         @output.not_nil!.each_line do |line|
-          output_observable.add(line)
+          @output_observable.add(line)
         end
       end
     end
@@ -73,11 +74,11 @@ module Ourcraft::Daemons::MinecraftRunner
   end
 
   class MinecraftOutputObservable
-    property outputTotal = [] of String
+    #property outputTotal = [] of String
     property subscribers = [] of String -> Nil
 
     def add(line)
-      @outputTotal << line
+      #@outputTotal << line
       subscribers.each do |s|
         s.call(line)
       end

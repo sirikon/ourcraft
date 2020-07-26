@@ -131,11 +131,16 @@
   }
 
   function connectWS() {
-    const websocket = new WebSocket(`ws://${document.location.host}`);
+    const websocket = new WebSocket(getWSAddress());
     websocket.onopen = () => console.log("Opened!");
     websocket.onclose = () => console.log("Closed!");
     websocket.onmessage = (evt) => addOutputLine(evt.data);
     websocket.onerror = (evt) => console.log("Error", evt)
+  }
+
+  function getWSAddress() {
+    const protocol = document.location.protocol === 'https:' ? 'wss:' : 'ws:'
+    return `${protocol}//${document.location.host}`;
   }
 
   function addOutputLine(line) {

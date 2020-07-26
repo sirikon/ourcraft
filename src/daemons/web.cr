@@ -58,16 +58,12 @@ module Ourcraft::Daemons::Web
 
     def build_ws_handler
       return HTTP::WebSocketHandler.new do |socket|
-        puts "Socket opened"
-        socket.on_message do |message|
-          puts message
-        end
+        socket.on_message do |message|; end
         cancel = @minecraft_runner.output_observable.subscribe do |line|
           socket.send(line)
         end
         socket.on_close do
           cancel.call()
-          puts "Socket closed"
         end
       end
     end

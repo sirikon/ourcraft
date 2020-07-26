@@ -7,7 +7,7 @@ module Ourcraft::Daemons::MinecraftRunner
     property proc : Process?
     property input : IO::FileDescriptor?
     property output : IO::FileDescriptor?
-    property outputTotal : IO::Memory?
+    property output_observable = MinecraftOutputObservable.new
     property waiters : Array(Channel(Nil)) = [] of Channel(Nil)
 
     def start
@@ -18,7 +18,6 @@ module Ourcraft::Daemons::MinecraftRunner
       outputReader, outputWriter = IO.pipe(write_blocking: true)
       @input = inputWriter
       @output = outputReader
-      @outputTotal = IO::Memory.new
       @proc = Minecraft::ProcessSpawner.spawn(inputReader, outputWriter, outputWriter)
       handle_output
       handle_process_termination
@@ -45,10 +44,8 @@ module Ourcraft::Daemons::MinecraftRunner
 
     private def handle_output
       spawn do
-        @output.not_nil!.each_byte do |c|
-          byte = Slice.new(1, c)
-          @outputTotal.not_nil!.write(byte)
-          print String.new(byte)
+        @output.not_nil!.each_line do |line|
+          output_observable.add(line)
         end
       end
     end
@@ -73,6 +70,24 @@ module Ourcraft::Daemons::MinecraftRunner
 
   class MinecraftRunnerStatus
     def initialize(@running : Bool); end
+  end
+
+  class MinecraftOutputObservable
+    property outputTotal = [] of String
+    property subscribers = [] of String -> Nil
+
+    def add(line)
+      @outputTotal << line
+      subscribers.each do |s|
+        s.call(line)
+      end
+    end
+
+    def subscribe(&block : String -> Nil)
+      subscribers << block
+      -> { subscribers.delete block }
+    end
+
   end
 
   def start

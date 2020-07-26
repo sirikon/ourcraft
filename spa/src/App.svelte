@@ -1,16 +1,29 @@
 <style>
-  h1 {
-    color: purple;
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
-  
-  h1.disabled {
-    opacity: 0.2;
+
+  .control, .input {
+    flex-shrink: 0;
+  }
+
+  .output {
+    flex-grow: 1;
+    overflow: scroll;
+  }
+
+  pre {
+    margin: 0;
   }
 </style>
 
 <script>
   let loading = false;
   let status = {};
+  let output_lines = [];
+  let next_command = "";
 
   function fetchStatus() {
     loading = true;
@@ -49,23 +62,37 @@
     const websocket = new WebSocket(`ws://${document.location.host}`);
     websocket.onopen = () => console.log("Opened!");
     websocket.onclose = () => console.log("Closed!");
-    websocket.onmessage = (evt) => console.log("Message", evt)
+    websocket.onmessage = (evt) => {
+      output_lines[output_lines.length] = evt.data;
+    }
     websocket.onerror = (evt) => console.log("Error", evt)
+  }
+
+  function send() {
+    sendCommand(next_command);
+    next_command = "";
   }
 
   fetchStatus();
   connectWS();
 </script>
 
-<h1 class:disabled={loading}>Status: {status.running ? 'Running' : 'Stopped'}</h1>
-{#if status}
-  {#if status.running}
-    <button disabled={loading} on:click={stop}>Stop</button>
-  {:else}
-    <button disabled={loading} on:click={start}>Start</button>
-  {/if}
-{/if}
-{#if loading}
-  <span>Loading...</span>
-{/if}
-<button on:click={() => sendCommand("list")}>list</button>
+
+<div class="container">
+  <div class="control">
+    {#if status}
+      <button disabled={loading} on:click={() => status.running ? stop() : start()}>
+        {status.running ? 'Stop' : 'Start'}
+      </button>
+    {/if}
+  </div>
+  <div class="output">
+    {#each output_lines as line}
+      <pre>{line}</pre>
+    {/each}
+  </div>
+  <div class="input">
+    <input disabled={loading} type="text" bind:value={next_command}>
+    <button disabled={loading} on:click={send}>Send</button>
+  </div>
+</div>

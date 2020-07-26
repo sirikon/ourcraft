@@ -92,7 +92,8 @@
     {/each}
   </div>
   <div class="input">
-    <input disabled={loading} type="text" bind:value={next_command}>
-    <button disabled={loading} on:click={send}>Send</button>
+    <form on:submit|preventDefault={send}>
+      <input disabled={loading} type="text" bind:value={next_command}>
+    </form>
   </div>
 </div>

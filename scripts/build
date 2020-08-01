@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+rm -rf ./out
+mkdir -p ./out/bin
+
+crystal spec
+shards_build_static_arg=""
+if [ "${1:-""}" == "static" ];then
+    shards_build_static_arg="--static"
+fi
+shards build -Dembed_web_assets --release --production --no-debug $shards_build_static_arg
+strip bin/ourcraft
+cp ./bin/ourcraft ./out/bin/ourcraft
+shards version > ./out/version
